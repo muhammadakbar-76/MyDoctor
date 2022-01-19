@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import { Logo } from '../../assets'; //penamaan component harus huruf besar, ingat!
+import { color,fonts } from '../../utils';
 
 const Splash = ({navigation}) => {
   
@@ -29,8 +30,8 @@ const Splash = ({navigation}) => {
     },
     title : {
         marginTop: 20,
-        fontFamily: "Nunito_SemiBold",
+        fontFamily: fonts.primary[600],
         fontSize: 20,
-        color: "#112340"
+        color: color.text.primary
     }
   });

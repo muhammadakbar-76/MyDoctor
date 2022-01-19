@@ -1,9 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import { Logo } from '../../assets';
-import { Button, Gap, Input, Link } from '../../components/atoms';
+import { Button, Gap, Input, Link } from '../../components';
+import { fonts } from '../../utils';
 
-const Login = () => {
+const Login = ({navigation}) => {
     return (
         <View style={styles.page}>
             <View>
@@ -17,8 +18,8 @@ const Login = () => {
                 <Input label="Password"/>
                 <Link link="Forget Password?" size={12}/>
                 </View>
-                <Button title="Sign In" />
-                <Link link="Create New Account" size={16} align="center"/>
+                <Button title="Sign In" onPress={() => navigation.replace("MainApp")}/>
+                <Link link="Create New Account" size={16} align="center" onPress={() => navigation.navigate("Register")}/>
             </View>
         </View>
     )
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-        fontFamily: "Nunito-SemiBold",
+        fontFamily: fonts.primary[600],
         color: "#112340",
         maxWidth: 153,
         marginVertical: 40

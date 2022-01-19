@@ -1,12 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { color } from '../../../utils'
+import { StyleSheet, Text, TouchableOpacity} from 'react-native'
+import { color, fonts } from '../../../utils';
 
-const Link = ({link, size, align}) => {
+const Link = ({link, size, align, onPress}) => {
     return (
-        <View>
+        <TouchableOpacity onPress={onPress}>
             <Text style={styles.text(size, align)}>{link}</Text>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -15,7 +15,7 @@ export default Link
 const styles = StyleSheet.create({
     text: (size, align) => ({
         color: color.text.secondary,
-        fontFamily: "Nunito_Regular",
+        fontFamily: fonts.primary[200],
         fontSize: size,
         textDecorationLine: 'underline',
         paddingBottom: 10,

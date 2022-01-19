@@ -1,0 +1,22 @@
+{
+    "chat" : [
+            {
+                "id": 1,
+                "pic": "Doc1",
+                "name": "Muhammad Akbar",
+                "lastChat": "Maaf mas dokter, pian terlalu baik gsn ulun"
+            },
+            {
+                "id": 2,
+                "pic": "Doc2",
+                "name": "Muhammad Udin",
+                "lastChat": "Anjay Udin Dokter"
+            },
+            {
+                "id": 3,
+                "pic": "Doc3",
+                "name": "Sumanto",
+                "lastChat": "Saya gak enak mas dokter, suer dah"
+            }
+        ]
+}

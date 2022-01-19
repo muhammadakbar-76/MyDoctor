@@ -1,5 +1,16 @@
 // eslint-disable-next-line prettier/prettier
 import Logo from "./logo.svg";
-import Bg from './bg.png';
+import Bg from './bg.jpg';
+import Null from './user_photo_null.png';
+import HandHeart from './handheart.svg';
+import Heart from './heart.svg';
+import Spidol from './spidol.svg';
+import Bottle from './bottle.svg';
+import Star from './star.svg';
+import BgHospital from './bg-hospital.png';
+import Hospital1 from './hospital1.png';
+import Hospital2 from './hospital2.png';
+import Hospital3 from './hospital3.png';
+import HospitalNull from './hospital_null.png';
 
-export {Logo, Bg};
+export {Logo, Bg, Null, HandHeart, Heart, Spidol, Bottle, Star, BgHospital, Hospital1, Hospital2, Hospital3, HospitalNull};
