@@ -12,9 +12,9 @@ const Hospitals = () => {
             <Text style={styles.subTitle}>3 Tersedia</Text>
             </ImageBackground>
             <View style={styles.content}>
-            <ListHospital type="Rumah Sakit Jiwa" name="Sambang Lihum" address="Jln.orgil no 69" pic="hospital1"/>
-            <ListHospital type="Rumah Sakit Anjay" name="Anjayani" address="Jln.orgil no 69" pic="hospital2"/>
-            <ListHospital type="Rumah Sakit Biasa" name="Biasa" address="Jln.orgil no 69" pic="hospital3"/>
+            <ListHospital type="Rumah Sakit Jiwa" name="Sambang Lihum" address="Jln.orgil no 76" pic="hospital1"/>
+            <ListHospital type="Rumah Sakit Hati" name="Para Jomblo" address="Jln.orgil no 76" pic="hospital2"/>
+            <ListHospital type="Rumah Sakit Biasa" name="Biasa" address="Jln.orgil no 76" pic="hospital3"/>
             </View>
         </View>
     )

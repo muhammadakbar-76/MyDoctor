@@ -8,7 +8,10 @@ const mainColor = {
     grey2: "#E9E9E9",
     grey3: "#B1B7C2",
     grey4: "#EDEEF0",
-    blue1: "#0066CB"
+    blue1: "#0066CB",
+    black1: "#000",
+    black2: "rgba(0,0,0,0.3)",
+    red1: "#E06379"
 }
 
 export const color = {
@@ -44,5 +47,7 @@ export const color = {
     },
     border: mainColor.grey2,
     cardLight: mainColor.green2,
-    profesi: mainColor.dark3
+    profesi: mainColor.dark3,
+    loadingBackground: mainColor.black2,
+    error: mainColor.red1
 }

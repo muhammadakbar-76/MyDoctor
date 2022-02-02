@@ -1,12 +1,11 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { color, fonts } from '../../../utils'
-import { Doc1 } from '../../../assets'
 
-const ChatItem = ({isMe,message,time}) => {
+const ChatItem = ({isMe,message,time,image}) => {
     return (
         <View style={styles.page(isMe)}>
-            { !isMe && <Image source={Doc1} style={styles.image} /> }
+            { !isMe && <Image source={{ uri: image }} style={styles.image} /> }
             <View>
             <View style={styles.container(isMe)}>
             <Text style={styles.text(isMe)}>{message}</Text>

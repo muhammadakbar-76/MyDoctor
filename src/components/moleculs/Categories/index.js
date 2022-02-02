@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { Gap } from '../../atoms/';
-import { Spidol, Heart, HandHeart, Bottle } from '../../../assets';
+import { Spidol, Heart, HandHeart, Bottle, Loading, TextLoad } from '../../../assets';
 import { color, fonts } from '../../../utils';
 
-const Categories = ({category,pic,onPress}) => {
+const Categories = ({category,pic,onPress,loading}) => {
     const Icon = () => {
         switch (pic) {
             case "Spidol":
+            case "Bedah" :
                 return <Spidol />;
             case "Bottle":
                 return <Bottle />;
@@ -15,6 +16,8 @@ const Categories = ({category,pic,onPress}) => {
                 return <Heart />;
             case "HandHeart":
                 return <HandHeart />;
+            case "loading":
+                return <Image source={Loading} style={styles.loading} />
             default:
                 break;
         }
@@ -24,8 +27,16 @@ const Categories = ({category,pic,onPress}) => {
             <TouchableOpacity onPress={onPress}>
             <Icon />
             <Gap height={28} />
-            <Text style={styles.label}>Saya butuh</Text>
+           { !loading ?
+           <>
+           <Text style={styles.label}>Saya Butuh</Text>
             <Text style={styles.category}>{category}</Text>
+           </> :
+           <>
+           <Image source={TextLoad} style={styles.textLoad} />
+           <Image source={TextLoad} style={styles.textLoad} />
+           </>
+           }
             </TouchableOpacity>
         </View>
     )
@@ -50,6 +61,15 @@ const styles = StyleSheet.create({
     category:{
         fontSize: 12,
         fontFamily: fonts.primary[600],
-        color: color.text.primary
+        color: color.text.primary,
+        textTransform: "capitalize"
+    },
+    loading: {
+        height: 46,
+        width: 46
+    },
+    textLoad: {
+        height: 8,
+        width: 50
     }
 })

@@ -10,7 +10,7 @@ import ChatItem from "./ChatItem";
 import ChatInput from "./ChatInput";
 import DarkProfile from "./DarkProfile";
 import Profile from "./Profile";
-import EditProfileForm from "./EditProfileForm";
 import ProfileItem from "./ProfileItem";
+import Loading from "./Loading";
 
-export {EditProfileForm ,DarkProfile,ChatInput,Header,BottomNavigator,HomeProfile,Categories,TopDoctors,News,Chats,ListHospital,ChatItem,Profile,ProfileItem};
+export {DarkProfile,ChatInput,Header,BottomNavigator,HomeProfile,Categories,TopDoctors,News,Chats,ListHospital,ChatItem,Profile,ProfileItem,Loading};

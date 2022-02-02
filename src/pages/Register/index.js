@@ -1,43 +1,51 @@
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
-import { color } from '../../utils';
+import { ScrollView, StyleSheet, ToastAndroid, View } from 'react-native'
+import { color, showError } from '../../utils';
 import { Button, Gap, Header, Input } from '../../components';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { fire } from '../../config';
+import { useDispatch } from 'react-redux';
+import { checkSingle } from '@reacherhq/api/lib/single';
 
 const Register = ({navigation}) => {
+
     const [data, setData] = useState({
-        fullName: "",
+        fullname: "",
         job: "",
         email: "",
         password: ""
     })
 
-    const onContinue = () => {
+    const dispatch = useDispatch();
+
+    const setLoading = val => {
+        dispatch({
+            type: "SET_LOADING",
+            value: val
+        });    
+    }
+
+    const onContinue = async () => {
         if (
-            data.fullName === "" ||
+            data.fullname === "" ||
             data.email === "" ||
             data.job === "" ||
             data.password === ""
-        ) return alert("Mohon Dilengkapi");
+        ) return ToastAndroid.showWithGravityAndOffset("Please fill all the fields",ToastAndroid.SHORT,ToastAndroid.TOP,0,70);
 
-        const auth = getAuth(fire);
-        createUserWithEmailAndPassword(auth, data.email, data.password)
-          .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log("register berhasil : ",user);
-            // ...
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error({
-                code: errorCode,
-                message: errorMessage
-            })
-            // ..
-          });
+        setLoading(true);
+       
+        const result = await checkSingle({to_email: data.email});
+
+        if(
+            result.is_reachable === "invalid" || 
+            result.is_reachable === "unknown" || 
+            result.is_reachable === "risky"
+            ){
+                setLoading(false);
+                return showError("Email is Invalid");
+            }
+
+        setLoading(false);
+        navigation.navigate("Verify",data);
     }
 
     return (
@@ -46,47 +54,31 @@ const Register = ({navigation}) => {
             <View style={styles.content}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
-                <Input label="Full Name" name="fullName" 
-                onSubmitEditing={e => setData({
+                <Input value={data.fullname} label="Full Name"
+                onChangeText={e => setData({
                     ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
-                })}
-                onEndEditing={e => setData({
-                    ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
+                    fullname: e
                 })}
                 />
                 <Gap height={24} />
-                <Input label="Pekerjaan" name="job"
-                onSubmitEditing={e => setData({
+                <Input value={data.job} label="Pekerjaan"
+                onChangeText={e => setData({
                     ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
-                })}
-                onEndEditing={e => setData({
-                    ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
+                    job: e
                 })}
                 />
                 <Gap height={24} />
-                <Input type="emailAddress" label="Email" name="email" 
-                onSubmitEditing={e => setData({
+                <Input value={data.email} type="emailAddress" label="Email"
+                onChangeText={e => setData({
                     ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
-                })}
-                onEndEditing={e => setData({
-                    ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
+                    email: e
                 })}
                 />
                 <Gap height={24} />
-                <Input type="password" label="Password" name="password"
-                onSubmitEditing={e => setData({
+                <Input value={data.password} type="password" label="Password"
+                onChangeText={e => setData({
                     ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
-                })}
-                onEndEditing={e => setData({
-                    ...data,
-                    [e.nativeEvent.name]: e.nativeEvent.value
+                    password: e
                 })}
                 />
                 </View>

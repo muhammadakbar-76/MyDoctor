@@ -1,17 +1,11 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { color, fonts } from '../../../utils'
-import { Account, BracketRightDark, Description, Doc1,Doc2,Doc3, StarIC, Translate } from '../../../assets'
+import { Account, BracketRightDark, Description, StarIC, Translate } from '../../../assets'
 
 const Chats = ({pic, name, lastChat, tipe, key = 1, onPress}) => {
     const Pic = () => {
         switch (pic) {
-            case "Doc1":
-                return <Image source={Doc1} style={styles.image} />
-             case "Doc2":
-                return <Image source={Doc2} style={styles.image} />
-             case "Doc3":
-                return <Image source={Doc3} style={styles.image} />
             case "account":
                 return <Account style={styles.image}/>
             case "star":
@@ -21,7 +15,7 @@ const Chats = ({pic, name, lastChat, tipe, key = 1, onPress}) => {
             case "translate":
                 return <Translate style={styles.image}/>
             default:
-                break;
+                return <Image source={{ uri: pic }} style={styles.image}/>
         }
     }
     return (
@@ -30,7 +24,9 @@ const Chats = ({pic, name, lastChat, tipe, key = 1, onPress}) => {
             <View style={styles.container}>
                 <View>
                 <Text style={styles.name}>{name}</Text>
-                <Text style={styles.lastChat}>{lastChat}</Text>
+                {
+                    lastChat &&  <Text style={styles.lastChat(tipe)}>{lastChat}</Text>
+                }
                 </View>
                 {
                     tipe === "list" && <BracketRightDark />
@@ -67,9 +63,10 @@ const styles = StyleSheet.create({
         fontFamily: fonts.primary.normal,
         color: color.text.primary
     },
-    lastChat: {
+    lastChat: tipe => ({
         fontSize: 12,
         fontFamily: fonts.primary[300],
-        color: color.text.secondary 
-    }
+        color: color.text.secondary,
+        textTransform: tipe === "list" ? "capitalize" : "none"
+    })
 })

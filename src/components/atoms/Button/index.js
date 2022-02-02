@@ -23,7 +23,11 @@ const Button = ({title,type,onPress,icon}) => {
         case "disabled":
             tipe.background = color.button.disabled.background;
             tipe.text = color.button.disabled.text;
-            break;
+            return (
+                <View style={styles.container(tipe)}>
+                    <Text style={styles.text(tipe)}>{title}</Text>
+                </View>
+            );
         case "chatInputLight":
         case "chatInputDark":
             return <ChatInputButton onPress={onPress} type={type}/>
@@ -34,7 +38,7 @@ const Button = ({title,type,onPress,icon}) => {
     }
 
     return (
-        <TouchableOpacity style={styles.container(tipe)} onPress={onPress}>
+        <TouchableOpacity  style={styles.container(tipe)} onPress={onPress}>
             <Text style={styles.text(tipe)}>{title}</Text>
         </TouchableOpacity>
     )
@@ -45,6 +49,7 @@ export default Button;
 const styles = StyleSheet.create({
     container: (type) => ({
         backgroundColor: type.background,
+        color: type.text,
         paddingVertical: 10,
         borderRadius: 10,
         width: "100%"

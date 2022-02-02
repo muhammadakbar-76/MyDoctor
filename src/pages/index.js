@@ -11,5 +11,6 @@ import ChooseDoctor from "./ChooseDoctor";
 import UserProfile from "./UserProfile";
 import UpdateProfile from "./UpdateProfile";
 import DoctorProfile from "./DoctorProfile";
+import Verify from "./Verify";
 
-export {DoctorProfile,UpdateProfile ,UserProfile, Splash, GetStarted, Register, Login, UploadPhoto, Doctor, Hospitals, Messages, Chatting, ChooseDoctor};
+export {Verify,DoctorProfile,UpdateProfile ,UserProfile, Splash, GetStarted, Register, Login, UploadPhoto, Doctor, Hospitals, Messages, Chatting, ChooseDoctor};

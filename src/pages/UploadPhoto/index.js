@@ -1,27 +1,73 @@
-import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Button, Gap, Header, Link } from '../../components'
-import { Null,BtnAdd } from '../../assets'
-import { color, fonts } from '../../utils'
+import { Null,BtnAdd,BtnClose } from '../../assets'
+import { color, fonts, showError, storeData } from '../../utils'
+import { launchImageLibrary } from 'react-native-image-picker'
+import { update,ref } from 'firebase/database';
+import { database } from '../../config'
 
-const UploadPhoto = ({navigation}) => {
+const UploadPhoto = ({navigation, route}) => {
+
+    const {fullname, job, userId} = route.params;
+
+    const [hasPhoto, setHasPhoto] = useState(false);
+    const [photo, setPhoto] = useState(Null);
+    const [photoDb, setPhotoDb] = useState("");
+
+    const getImagesFromGallery = async () => {
+       const result = await launchImageLibrary({
+           includeBase64: true,
+           quality: 0.5,
+           maxWidth: 200,
+           maxHeight: 200
+       });
+       if(result.didCancel || result.error){
+           return showError("Upload Photo Canceled");
+       }
+       const data = result.assets[0];
+       setPhotoDb(`data:${data.type};base64, ${data.base64}`);
+       setPhoto({uri: data.uri});
+       setHasPhoto(true);
+    }
+
+    const upload = () => {
+        update(ref(database,`users/${userId}/`),{photo: photoDb});
+        const data = {
+            ...route.params,
+            photo: photoDb
+        };
+        storeData("user",data);
+        navigation.replace("MainApp");
+    }
+
     return (
         <View style={styles.page}>
             <Header title="Upload Photo" onPress={() => navigation.goBack()}/>
             <View style={styles.photoContainer}>
-                <View style={styles.photoWrapper}>
-                <Image source={Null} style={styles.photo}/>
-                <BtnAdd style={styles.add}/>
-                </View>
+                <TouchableOpacity onPress={() => !hasPhoto && getImagesFromGallery()} style={styles.photoWrapper}>
+                <Image source={photo} style={styles.photo}/>
+                {
+                    hasPhoto ? 
+                    <TouchableOpacity onPress={() => {
+                        setPhoto(Null)
+                        setHasPhoto(false)
+                    }} style={styles.add}>
+                        <BtnClose />
+                    </TouchableOpacity>
+                    : 
+                    <BtnAdd style={styles.add}/>
+                }
+                </TouchableOpacity>
                 <Gap height={26} />
-                <Text style={styles.text}>Nama Anda</Text>
+                <Text style={styles.text}>{fullname}</Text>
                 <Gap height={4} />
-                <Text style={styles.textSecond}>Profesi</Text>
+                <Text style={styles.textSecond}>{job}</Text>
             </View>
             <View style={styles.button}>
-            <Button title="Upload and Continue" type="disabled" />
+            <Button title="Upload and Continue" type={!hasPhoto && "disabled"} onPress={() => hasPhoto && upload()}/>
             <Gap height={30} />
-            <Link link="Skip for now" size={16} align="center" onPress={() => navigation.replace("MainApp")}/>
+            <Link link="Skip for now" size={16} align="center" onPress={() => !hasPhoto && navigation.replace("MainApp")}/>
             </View>
         </View>
     )
@@ -38,6 +84,7 @@ const styles = StyleSheet.create({
     photo: {
         height: 110,
         width: 110,
+        borderRadius: 110/2
     },
     photoWrapper: {
         height: 130,

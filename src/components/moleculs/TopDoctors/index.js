@@ -1,22 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import { Doc1,Doc2,Doc3,Star } from '../../../assets'
+import { Star, Loading, TextLoadLong, TextLoad } from '../../../assets'
+import { Gap } from '../../atoms/'
 import { color, fonts } from '../../../utils'
 
-const TopDoctors = ({name,pic,kind,rate,onPress}) => {
-    
-    const Photo = () => {
-        switch (pic) {
-            case "Doc1":
-                return <Image source={Doc1} style={styles.image}/>
-            case "Doc2":
-                return <Image source={Doc2} style={styles.image}/>
-            case "Doc3":
-                return <Image source={Doc3} style={styles.image}/>
-            default:
-                break;
-        }
-    }
+const TopDoctors = ({name,pic,kind,rate,onPress,loading}) => {
 
     const star = [];
 
@@ -25,9 +13,10 @@ const TopDoctors = ({name,pic,kind,rate,onPress}) => {
     }
 
     return (
+        !loading ?
         <TouchableOpacity style={styles.page} onPress={onPress}>
-            <View style={styles.rate}>
-            <Photo />
+            <View style={styles.list}>
+            <Image source={{ uri: pic }} style={styles.image} />
             <View>
             <Text style={styles.name}>{name}</Text>
             <Text style={styles.category}>{kind}</Text>
@@ -44,7 +33,17 @@ const TopDoctors = ({name,pic,kind,rate,onPress}) => {
                 })
             }
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity> :
+        <View style={styles.page}>
+            <View style={styles.list}>
+                <Image source={Loading} style={styles.loading} />
+                <View>
+                    <Image source={TextLoadLong} style={styles.textLoadLong} />
+                    <Gap height={5} />
+                    <Image source={TextLoad} style={styles.textLoad} />
+                </View>
+            </View>
+        </View>
     )
 }
 
@@ -64,7 +63,12 @@ const styles = StyleSheet.create({
         marginRight: 12
     },
     rate: {
-        flexDirection: "row"
+        flexDirection: "row",
+        width: "25%"
+    },
+    list:{
+        flexDirection: "row",
+        alignItems: "center"
     },
     name: {
         fontSize: 16,
@@ -75,6 +79,20 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: fonts.primary.normal,
         color: color.text.secondary,
-        marginTop: 2
+        marginTop: 2,
+        textTransform: "capitalize"
+    },
+    loading: {
+        height: 46,
+        width: 46,
+        paddingRight: 10
+    },
+    textLoad: {
+        height: 8,
+        width: 50
+    },
+    textLoadLong: {
+        height: 12,
+        width: 120,
     }
 })

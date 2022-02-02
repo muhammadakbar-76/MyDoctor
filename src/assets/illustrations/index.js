@@ -12,5 +12,9 @@ import Hospital1 from './hospital1.png';
 import Hospital2 from './hospital2.png';
 import Hospital3 from './hospital3.png';
 import HospitalNull from './hospital_null.png';
+import Loading from './loading.gif';
+import TextLoad from './text.gif';
+import TextLoadLong from './textLong.gif';
+import VerifyPic from './verify.png';
 
-export {Logo, Bg, Null, HandHeart, Heart, Spidol, Bottle, Star, BgHospital, Hospital1, Hospital2, Hospital3, HospitalNull};
+export {VerifyPic, Logo,Loading,TextLoad,TextLoadLong, Bg, Null, HandHeart, Heart, Spidol, Bottle, Star, BgHospital, Hospital1, Hospital2, Hospital3, HospitalNull};

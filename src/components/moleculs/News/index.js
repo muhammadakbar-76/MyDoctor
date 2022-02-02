@@ -1,29 +1,30 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Building, Oranges, OrangesFull } from '../../../assets'
 import { color, fonts } from '../../../utils'
+import { TextLoad,TextLoadLong,Loading } from '../../../assets';
+import { Gap } from '../../atoms';
 
-const News = ({title,date,pic}) => {
-    const Icon = () => {
-        switch (pic) {
-            case "Building":
-                return <Image source={Building} style={styles.image}/>
-            case "Oranges":
-                return <Image source={Oranges} style={styles.image}/>
-            case "OrangesFull":
-                return <Image source={OrangesFull} style={styles.image}/>
-            default:
-                break;
-        }
-    }
+const News = ({title,date,pic,loading}) => {
+    
     return (
+        !loading ?
         <View style={styles.page}>
             <View style={styles.wrapper}>
             <View>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.date}>{date}</Text>
             </View>
-            <Icon />
+            <Image source={{ uri: pic }} style={styles.image}/>
+            </View>
+        </View> :
+         <View style={styles.page}>
+            <View style={styles.wrapper}>
+                <View>
+                <Image source={TextLoadLong} style={styles.textLoadLong} />
+                <Gap height={5} />
+                <Image source={TextLoad} style={styles.textLoad} />
+                </View>
+                <Image source={Loading} style={styles.loading} />
             </View>
         </View>
     )
@@ -59,5 +60,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
+    },
+    loading: {
+        height: 46,
+        width: 46,
+        paddingRight: 10
+    },
+    textLoad: {
+        height: 8,
+        width: 50
+    },
+    textLoadLong: {
+        height: 12,
+        width: 120,
     }
 })

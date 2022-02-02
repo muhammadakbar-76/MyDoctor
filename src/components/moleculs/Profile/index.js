@@ -1,16 +1,22 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { BtnClose, ICFemale, Person } from '../../../assets'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BtnClose, ICFemale, ICMale, Null } from '../../../assets'
 import { color, fonts } from '../../../utils'
 
-const Profile = ({name,profession,edit}) => {
+const Profile = ({name,profession,edit,image,onPress}) => {
 
     const Icon = () => {
         switch (edit) {
             case "change":
-                return <BtnClose style={styles.icon}/>
+                return(
+                <TouchableOpacity style={styles.icon} onPress={onPress}>
+                    <BtnClose />
+                </TouchableOpacity>
+                ) 
             case "female":
                 return <ICFemale style={styles.icon}/>
+            case "male":
+                return <ICMale style={styles.icon} />
             default:
                 break;
         }
@@ -19,7 +25,7 @@ const Profile = ({name,profession,edit}) => {
     return (
         <View style={styles.page}>
             <View style={styles.borderProfile}>
-                <Image source={Person} style={styles.image} />
+                <Image source={image === "null" ? Null : { uri: image }} style={styles.image} />
                 {
                     edit && <Icon />
                 }
@@ -64,7 +70,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: fonts.primary[600],
         color: color.text.secondary,
-        marginTop: 2
+        marginTop: 2,
+        textTransform: "capitalize"
     },
     icon: {
         position: "absolute",

@@ -4,11 +4,11 @@ import DarkProfile  from '../DarkProfile';
 import {Button,Gap} from '../../atoms'
 import { color,fonts } from '../../../utils';
 
-const Header = ({title,onPress,tipe}) => {
+const Header = ({title,onPress,tipe,profession,photo}) => {
     if (tipe === "dark-profile") {
         return(
             <View>
-                <DarkProfile title={title} onPress={onPress}/>
+                <DarkProfile photo={photo} profession={profession} title={title} onPress={onPress}/>
             </View>
         )
     }
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontFamily: fonts.primary[600],
         fontSize: 20,
-        color: tipe === "secondary" ? color.white : color.text.primary
+        color: tipe === "secondary" ? color.white : color.text.primary,
+        textTransform: "capitalize"
     })
 })

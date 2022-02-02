@@ -1,4 +1,5 @@
-import {initializeApp} from 'firebase/app'
+import {initializeApp} from 'firebase/app';
+import {getDatabase} from 'firebase/database';
 import {API_KEY_FIREBASE, MESSAGE_SENDER_ID, APP_ID_FIREBASE} from '@env';
 
 const firebaseConfig = {
@@ -12,11 +13,13 @@ const firebaseConfig = {
   
     messagingSenderId: MESSAGE_SENDER_ID,
   
-    appId: APP_ID_FIREBASE
+    appId: APP_ID_FIREBASE,
+
+    databaseURL: "https://my-doctor-76-default-rtdb.asia-southeast1.firebasedatabase.app/"
 }
   
   // Initialize Firebase
   
-  const fire = initializeApp(firebaseConfig);
+export const fire = initializeApp(firebaseConfig);
 
-  export default fire;
+export const database = getDatabase(fire);

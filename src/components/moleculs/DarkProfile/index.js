@@ -2,11 +2,10 @@ import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { color,fonts } from '../../../utils'
 import {Button,Gap} from '../../atoms'
-import { Doc1 } from '../../../assets'
 
-const DarkProfile = ({onPress, title}) => {
+const DarkProfile = ({onPress, title, profession, photo}) => {
     const Pic = () => {
-        return <Image source={Doc1} style={styles.image}/>
+        return <Image source={{ uri: photo }} style={styles.image}/>
     }
     return (
         <View style={styles.page}>
@@ -14,10 +13,10 @@ const DarkProfile = ({onPress, title}) => {
             <View style={styles.container}>
                 <View style={styles.name}>
                 <Text style={styles.item}>{title}</Text>
-                <Text style={styles.profesi}>Dokter Cinta</Text>
+                <Text style={styles.profesi}>{profession}</Text>
                 </View>
-                <Pic />
             </View>
+                <Pic />
             <Gap width={24} />
         </View>
     )
@@ -28,7 +27,6 @@ export default DarkProfile
 const styles = StyleSheet.create({
     page: {
         flexDirection: "row",
-        paddingRight: 16,
         paddingLeft: 20,
         paddingVertical: 30,
         backgroundColor: color.secondary,
@@ -48,14 +46,15 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     name: {
-        flex: 1
+        flex: 1,
     },
     profesi: {
         textAlign: "center",
         color: color.profesi,
         fontSize: 14,
         marginTop: 6,
-        fontFamily: fonts.primary.normal
+        fontFamily: fonts.primary.normal,
+        textTransform: "capitalize"
     },
     image: {
         height: 46,

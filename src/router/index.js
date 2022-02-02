@@ -1,6 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Splash, GetStarted, Register, Login, UploadPhoto, Doctor, Messages, Hospitals, Chatting, ChooseDoctor, UserProfile, UpdateProfile, DoctorProfile } from "../pages";
+import { Splash, GetStarted, Register, Login, UploadPhoto, Doctor, Messages, Hospitals, Chatting, ChooseDoctor, UserProfile, UpdateProfile, DoctorProfile,Verify } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigator } from "../components";
 
@@ -21,7 +21,7 @@ const MainApp = () => {
 const Router = () => {
     return (
         // there is many props option you can pass to stack navigator, for example initialRouteName
-        <Stack.Navigator initialRouteName="Splash"> 
+        <Stack.Navigator initialRouteName="SplashScreen"> 
             <Stack.Screen 
             name="Splash" 
             component={Splash}
@@ -75,6 +75,11 @@ const Router = () => {
             <Stack.Screen
             name="DoctorProfile"
             component={DoctorProfile}
+            options={{ headerShown: false }}
+            />
+            <Stack.Screen
+            name="Verify"
+            component={Verify}
             options={{ headerShown: false }}
             />
         </Stack.Navigator>

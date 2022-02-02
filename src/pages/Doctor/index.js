@@ -1,36 +1,81 @@
-import React from 'react'
+import { get, ref, query, orderByChild, limitToLast } from 'firebase/database';
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, ScrollView, View } from 'react-native'
 import { Categories, Gap, HomeProfile, News, TopDoctors } from '../../components';
-import { color, fonts } from '../../utils';
+import { database } from '../../config';
+import { color, fonts, parseToArray, showError } from '../../utils';
 
 const Doctor = ({navigation}) => {
+
+    const [news, setNews] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [topRated, setTopRated] = useState([]);
+
+    const getDatabase = async (source, set, order) => {
+        try {
+            let res;
+            if(order !== undefined){
+                const que = query(ref(database,source), orderByChild("rate"), limitToLast(3));
+                const result = await get(que);
+                res = parseToArray(result.val());
+            } else {
+                res = await get(ref(database,source));
+            } 
+            set((order !== undefined ? res : res.val()))//DataSanpShot.val() disini punya firebase
+        } catch (error) {
+            showError(error.message);
+        }
+    }
+
+    useEffect(() => {
+        getDatabase("news/",setNews);
+        getDatabase("doctor_categories/",setCategories);
+        getDatabase("doctors/",setTopRated,"rate");
+    },[]);
+
     return (
         <View style={styles.page}>
             <View style={styles.content}>
             <ScrollView showsVerticalScrollIndicator={false}>
             <Gap height={30} />
             <View style={styles.paddong} >
-            <HomeProfile name="Muhammad Akbar" profession="Programmer" onPress={() => navigation.navigate("UserProfile")}/>
+            <HomeProfile onPress={() => navigation.navigate("UserProfile")}/>
             </View>
             <Text style={styles.welcome}>Mau konsultasi dengan siapa hari ini?</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.categories}>
-            <Categories category="Dokter Umum" pic="Spidol" onPress={() => navigation.navigate("ChooseDoctor")}/>
-            <Categories category="Psikiater" pic="Heart" onPress={() => navigation.navigate("ChooseDoctor")}/>
-            <Categories category="Dokter Obat" pic="Bottle" onPress={() => navigation.navigate("ChooseDoctor")}/>
-            <Categories category="Dokter Anak" pic="HandHeart" onPress={() => navigation.navigate("ChooseDoctor")}/>
+            {
+               categories.length > 0 ? categories.map(item => {
+                    return(
+                        <Categories key={item.id} category={item.name} pic={item.image} onPress={() => navigation.navigate("ChooseDoctor", item)}/>
+                    )
+                }) :
+                <Categories pic="loading" loading />
+            }
             </View>
             </ScrollView>
             <Text style={styles.sectionLabel}>Top Rated Doctors</Text>
-            <TopDoctors name="Muhammad Akbar" pic="Doc1" kind="Dokter Gadungan" rate={5} onPress={() => navigation.navigate("DoctorProfile")}/>
-            <Gap height={16} />
-            <TopDoctors name="Muhammad Udin" pic="Doc2" kind="Dokter Gadungan" rate={5} onPress={() => navigation.navigate("DoctorProfile")}/>
-            <Gap height={16} />
-            <TopDoctors name="Carl Johnson" pic="Doc3" kind="Dokter Busta" rate={3} onPress={() => navigation.navigate("DoctorProfile")}/>
+            {
+                categories.length > 0 ? topRated.map(item => {
+                    return(
+                        <View key={item.id} >
+                        <TopDoctors name={item.data.fullName} pic={item.data.photo} kind={item.data.category} rate={item.data.rate} onPress={() => navigation.navigate("DoctorProfile",item)}/>
+                        <Gap height={16}/>
+                        </View>
+                    )
+                }) :
+                <TopDoctors loading />
+            }
             <Text style={styles.sectionLabel}>News & Articles</Text>
-            <News title="Is it okay to be millionaire?" date="27-10-2021" pic="Building" />
-            <News title="Is it okay to be millionaire?" date="27-10-2021" pic="Oranges" />
-            <News title="Is it okay to be millionaire?" date="27-10-2021" pic="OrangesFull" />
+            {
+                 news.length > 0 ? news.map(item => {
+                    return(
+                        <News key={item.id} title={item.title} date={item.date} pic={item.image} />
+                    )
+                }) :
+                <News loading />
+            }
+            <Gap height={30} />
             </ScrollView>
         </View>
         </View>
@@ -68,7 +113,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: fonts.primary[600],
         color: color.text.primary,
-        marginTop: 30,
+        marginTop: 14,
         marginBottom: 16,
         paddingHorizontal: 16
     },
